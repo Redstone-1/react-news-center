@@ -1,7 +1,7 @@
 import React from 'react';
 import { HashRouter, Route, Switch, Redirect } from "react-router-dom";
-import Login from '../views/Login/login';
-import NewsSandbox from '../views/NewsSandbox/newsSandbox';
+import Login from "../views/Login/Login";
+import NewsSandbox from '../views/NewsSandbox/NewsSandbox';
 
 export default function Router () {
   return (

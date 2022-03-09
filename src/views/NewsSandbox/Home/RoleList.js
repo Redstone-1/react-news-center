@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
 
-export default class SideMenu extends Component {
+export default class RoleList extends Component {
   render() {
     return (
       <div>
-        ssss
+        
       </div>
     )
   }
