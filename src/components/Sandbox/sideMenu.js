@@ -1,39 +1,106 @@
 import React, { Component } from 'react';
 import { Layout, Menu } from "antd";
 import {
+  HomeOutlined,
   UserOutlined,
-  VideoCameraOutlined,
-  UploadOutlined
-} from '@ant-design/icons';
+  UnlockOutlined,
+  MessageOutlined,
+  CheckCircleOutlined,
+  CloudUploadOutlined 
+} from "@ant-design/icons"
+import { withRouter } from 'react-router-dom';
+import { $get } from '../../api/request';
 import "./index.css"
 
-export default class SideMenu extends Component {
+const { Sider } = Layout
+const { Item, SubMenu } = Menu  
+
+const iconToRoute = {
+  "/home": <HomeOutlined />,
+  "/user-manage": <UserOutlined />,
+  "/right-manage": <UnlockOutlined />,
+  "/news-manage": <MessageOutlined />,
+  "/audit-manage": <CheckCircleOutlined />,
+  "/publish-manage": <CloudUploadOutlined />
+}
+
+// 下面两个属性控制菜单在刷新后恢复
+const currentUrl = window.location.hash
+const currentOpenKeys = ["/" + currentUrl.split("/")[1]]
+
+class SideMenu extends Component {
 
   state = {
     collapsed: false,
+    menuList: [],
+    selectedKey: [] // 当前选中的菜单项 key 数组
   };
 
+  // 请求左侧菜单
+  componentDidMount () {
+    $get("rights?_embed=children", "").then(res => {
+      if (res.status === 200) {
+        this.setState({
+          menuList: res.data
+        })
+      }
+    })
+  }
+
+  // 校验菜单是不是页面级路由，是才渲染到左侧
+  checkPagePermission = (item) => {
+    return item.pagepermisson === 1
+  }
+
+  // 控制左侧菜单的打开效果：一个打开另一个关闭，永远只能打开一个
+  controlMenuOpen = key => {
+    if (key.length > 1) {
+      key.shift()
+    }
+  }
+
   render() {
-    const { Sider } = Layout
-    const { Item, SubMenu } = Menu  
-    
     return (
       <Sider trigger={null} collapsible collapsed={this.state.collapsed}>
         <div className="logo">全球新闻发布系统</div>
-        <Menu theme="dark" mode="inline" defaultSelectedKeys={['sub1']}>
-          <SubMenu key="sub1" title="Navigation Two">
-            <Item key="1" icon={<UserOutlined />}>
-              sub1
-            </Item>
-          </SubMenu>
-          <Item key="2" icon={<VideoCameraOutlined />}>
-            nav 2
-          </Item>
-          <Item key="3" icon={<UploadOutlined />}>
-            nav 3
-          </Item>
+        <Menu 
+          onOpenChange={this.controlMenuOpen}
+          theme="dark" 
+          mode="inline" 
+          defaultOpenKeys={currentOpenKeys}
+          defaultSelectedKeys={[`${currentUrl.slice(1)}`]}>
+            {
+              this.renderMenuList(this.state.menuList)
+            }
         </Menu>
       </Sider>
     )
   }
+
+  // 拿到 menuList 渲染 menu
+  renderMenuList = (menuList) => {
+    return menuList.map(item => {
+      if (item.children && item.children?.length > 0 && this.checkPagePermission(item)) {
+        return (
+          <SubMenu 
+            title={item.title} 
+            key={item.key} 
+            icon={iconToRoute[item.key]}>
+              {
+                this.renderMenuList(item.children)
+              }
+          </SubMenu>
+        )
+      }
+      return this.checkPagePermission(item) && <Item 
+        onClick={() => this.props.history.push(item.key)}
+        key={item.key}
+        icon={iconToRoute[item.key]}
+      >
+          {item.title}
+      </Item>
+    })
+  }
 }
+
+export default withRouter(SideMenu)
