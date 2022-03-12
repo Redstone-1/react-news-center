@@ -80,7 +80,7 @@ class SideMenu extends Component {
   // 拿到 menuList 渲染 menu
   renderMenuList = (menuList) => {
     return menuList.map(item => {
-      if (item.children && item.children?.length > 0 && this.checkPagePermission(item)) {
+      if (item?.children?.length > 0 && this.checkPagePermission(item)) {
         return (
           <SubMenu 
             title={item.title} 

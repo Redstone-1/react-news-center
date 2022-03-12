@@ -23,7 +23,8 @@ export default class NewsSandbox extends Component {
               margin: '16px 16px',
               padding: 16,
               minHeight: 280,
-              backgroundColor: "#fff"
+              backgroundColor: "#fff",
+              overflow: "auto"
             }}
           >
             <Switch>

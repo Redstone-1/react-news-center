@@ -64,6 +64,25 @@ export function $put(url, params) {
       });
   });
 }
+
+/**
+* patch方法，对应patch请求
+* @param {*} url
+* @param {*} params
+* @returns
+*/
+export function $patch(url, params) {
+  return new Promise((resolve, reject) => {
+    request
+      .patch(url, params)
+      .then(res => {
+        resolve(res);
+      })
+      .catch(err => {
+        reject(err);
+      });
+  });
+}
  
 /**
 * delete方法，对应delete请求
