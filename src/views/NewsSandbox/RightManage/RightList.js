@@ -166,7 +166,7 @@ export default class RightList extends Component {
       }
     })
     .catch(err => {
-      message.success("操作失败")
+      message.error("操作失败")
       setInterval(() => {
         window.location.reload()
       }, 200)

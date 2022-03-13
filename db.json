@@ -71,6 +71,33 @@
       "region": "亚洲",
       "roleId": 3,
       "id": 8
+    },
+    {
+      "username": "红色石头",
+      "password": "123456",
+      "region": "亚洲",
+      "roleId": 2,
+      "roleState": true,
+      "default": false,
+      "id": 9
+    },
+    {
+      "username": "古拉啦黑暗之神",
+      "password": "123456",
+      "region": "非洲",
+      "roleId": 3,
+      "roleState": true,
+      "default": false,
+      "id": 10
+    },
+    {
+      "username": "香菜",
+      "password": "123456",
+      "region": "南极洲",
+      "roleId": 2,
+      "roleState": true,
+      "default": false,
+      "id": 11
     }
   ],
   "roles": [
@@ -98,7 +125,14 @@
         "/right-manage",
         "/publish-manage/unpublished",
         "/publish-manage/published",
-        "/publish-manage/sunset"
+        "/publish-manage/sunset",
+        "/news-manage/list",
+        "/news-manage/add",
+        "/news-manage/update/:id",
+        "/news-manage/preview/:id",
+        "/right-manage/right/list",
+        "/audit-manage/audit",
+        "/audit-manage/list"
       ]
     },
     {

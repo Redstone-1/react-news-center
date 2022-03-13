@@ -135,7 +135,7 @@ export default function RoleList () {
         message.success("操作成功")
       }
     }).catch(err => {
-      message.success("操作失败")
+      message.error("操作失败")
     })
   }
 
