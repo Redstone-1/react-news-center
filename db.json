@@ -11,30 +11,21 @@
     },
     {
       "username": "铁锤",
-      "password": "123",
+      "password": "123123",
       "roleState": true,
       "default": false,
-      "region": "亚洲",
-      "roleId": 2,
+      "region": "非洲",
+      "roleId": 3,
       "id": 2
     },
     {
       "username": "钢蛋",
       "password": "123",
-      "roleState": true,
+      "roleState": false,
       "default": false,
       "region": "南极洲",
       "roleId": 2,
       "id": 3
-    },
-    {
-      "username": "诸葛山珍",
-      "password": "123",
-      "roleState": true,
-      "default": false,
-      "region": "",
-      "roleId": 1,
-      "id": 4
     },
     {
       "username": "西门吹灯",
@@ -48,7 +39,7 @@
     {
       "username": "轩辕翠花",
       "password": "123",
-      "roleState": true,
+      "roleState": false,
       "default": false,
       "region": "南极洲",
       "roleId": 3,
@@ -82,15 +73,6 @@
       "id": 9
     },
     {
-      "username": "古拉啦黑暗之神",
-      "password": "123456",
-      "region": "非洲",
-      "roleId": 3,
-      "roleState": true,
-      "default": false,
-      "id": 10
-    },
-    {
       "username": "香菜",
       "password": "123456",
       "region": "南极洲",
@@ -98,6 +80,15 @@
       "roleState": true,
       "default": false,
       "id": 11
+    },
+    {
+      "username": "西瓜",
+      "password": "123456",
+      "region": "南极洲",
+      "roleId": 2,
+      "roleState": true,
+      "default": false,
+      "id": 12
     }
   ],
   "roles": [
