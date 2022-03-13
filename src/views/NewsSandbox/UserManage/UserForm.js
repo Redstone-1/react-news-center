@@ -30,7 +30,8 @@ const UserForm = forwardRef((props, ref) => {
         name="password"
         label="密码"
         rules={[
-          { required: true, message: "请输入密码" }
+          { required: true, message: "请输入密码" },
+          { max: 12, min: 6, message: "密码长度在 6 到 12 之间" }
         ]}
       >
         <Input />

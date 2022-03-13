@@ -21,6 +21,8 @@ export default class UserList extends Component {
 
   constructor(props) {
     super(props)
+    this.formRef = React.createRef()
+    this.formUpdateRef = React.createRef()
     this.state = {
       dataSource: [],
       loading: false,
@@ -43,9 +45,49 @@ export default class UserList extends Component {
         title: "区域",
         dataIndex: "region",
         key: "region",
+        filters: [
+          {
+            text: "亚洲",
+            value: "亚洲"
+          },
+          {
+            text: "欧洲",
+            value: "欧洲"
+          },
+          {
+            text: "北美洲",
+            value: "北美洲"
+          },
+          {
+            text: "南美洲",
+            value: "南美洲"
+          },
+          {
+            text: "非洲",
+            value: "非洲"
+          },
+          {
+            text: "大洋洲",
+            value: "大洋洲"
+          },
+          {
+            text: "南极洲",
+            value: "南极洲"
+          },
+          {
+            text: "全球",
+            value: "全球"
+          }
+        ],
         render: (text) => {
           const color = "#" + Math.random().toString().slice(2, 8)
           return <Tag color={color}>{ text ? text : "全球"  }</Tag>
+        },
+        onFilter: (value, item) => {
+          if (value === "全球") {
+            return item.region === ""
+          }
+          return item.region === value
         }
       },
       {
@@ -97,7 +139,6 @@ export default class UserList extends Component {
     this.pagination = {
       pageSize: 5
     }
-    this.formRef = React.createRef()
   }
 
   componentDidMount () {
@@ -190,47 +231,60 @@ export default class UserList extends Component {
   }
 
   // 校验新增用户表单并新增用户
-  createOrUpdateUser = (type) => {
+  createUser = () => {
     this.formRef.current.validateFields()
       .then(values => {
-        if (type === "add") {
-          $post("/users", {
-            ...values,
-            "roleState": true,
-            "default": false,
-          }).then(res => {
-            if (res.status === 201 || res.status === 200 ) {
-              message.success("操作成功")
-              this.getUsersList()
-              this.formRef.current.resetFields()
-            } else {
-              message.error("操作失败")
-            } 
-            this.setState({
-              isAddUserModalShow: false
-            })
-          }).catch(err => Promise.reject(err))
-        } else {
-          $patch(`/users/${this.state?.currentUpdateUserId}`, {
-            ...values,
-            "roleState": true,
-            "default": false,
-          }).then(res => {
-            if (res.status === 201 || res.status === 200 ) {
-              message.success("操作成功")
-              this.getUsersList()
-              this.formRef.current.resetFields()
-            } else {
-              message.error("操作失败")
-            } 
-            this.setState({
-              isUpdateUserModalShow: false
-            })
-          }).catch(err => Promise.reject(err))
-        }
-      }).catch(err => Promise.reject(err))
+        $post("/users", {
+          ...values,
+          "roleState": true,
+          "default": false,
+        }).then(res => {
+          if (res.status === 201 || res.status === 200 ) {
+            message.success("操作成功")
+            this.getUsersList()
+            this.formRef.current.resetFields()
+          } else {
+            message.error("操作失败")
+          } 
+        }).catch(err => Promise.reject(err))  
+      }).catch(err => { 
+        this.setState({
+          isUpdateUserModalShow: true
+        })
+      })
+
+      this.setState({
+        isAddUserModalShow: false
+      })
   }
   
+  // 更新用户
+  updateUser = () => {
+    this.formUpdateRef.current.validateFields()
+      .then(values => {
+        $patch(`/users/${this.state?.currentUpdateUserId}`, {
+          ...values,
+          "roleState": true,
+          "default": false,
+        }).then(res => {
+          if (res.status === 201 || res.status === 200 ) {
+            message.success("操作成功")
+            this.getUsersList()
+            this.formUpdateRef.current.resetFields()
+          } else {
+            message.error("操作失败")
+          } 
+        }).catch(err => Promise.reject(err))
+      }).catch(err => {
+        this.setState({
+          isUpdateUserModalShow: true
+        })
+      })
+
+      this.setState({
+        isUpdateUserModalShow: false
+      })
+  }
 
   // 更新用户弹窗显示
   updateUserModalShow = (record) => {
@@ -238,7 +292,7 @@ export default class UserList extends Component {
       isUpdateUserModalShow: true,
       currentUpdateUserId: record.id
     }, () => {
-      this.formRef.current.setFieldsValue({
+      this.formUpdateRef.current.setFieldsValue({
         username: record.username,
         password: record.password,
         region: record.region,
@@ -268,7 +322,7 @@ export default class UserList extends Component {
           title="添加用户"
           cancelText="取消"
           okText="确认"
-          onOk={() => this.createOrUpdateUser("add")}
+          onOk={() => this.createUser()}
           onCancel={() => this.setState({
             isAddUserModalShow: false
           })}
@@ -281,12 +335,12 @@ export default class UserList extends Component {
           title="更新用户"
           cancelText="取消"
           okText="确认"
-          onOk={() => this.createOrUpdateUser("update")}
+          onOk={() => this.updateUser()}
           onCancel={() => this.setState({
             isUpdateUserModalShow: false
           })}
         >
-          <AddUserForm ref={this.formRef} regions={this.state.regions} roles={this.state.roles} />
+          <AddUserForm ref={this.formUpdateRef} regions={this.state.regions} roles={this.state.roles} />
         </Modal>
       </>
     )
