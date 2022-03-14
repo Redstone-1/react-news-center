@@ -11,7 +11,7 @@ export default function Router () {
         <Route path="/" render={
           () => localStorage.getItem("token")
           ? <NewsSandbox></NewsSandbox>
-          : <Redirect to="login" /> 
+          : <Redirect to="/login" /> 
         } />
       </Switch>
     </HashRouter>

@@ -1,29 +1,34 @@
 import React, { Component } from 'react';
 import { Layout, Menu, Dropdown, Avatar } from "antd";
+import { withRouter } from 'react-router-dom';
 import {
   MenuUnfoldOutlined,
   MenuFoldOutlined
 } from '@ant-design/icons';
 
-const menu = (
-  <Menu>
-    <Menu.Item>
-      11111111111
-    </Menu.Item>
-    <Menu.Item danger>
-      退出
-    </Menu.Item>
-  </Menu>
-);
-
-
-export default class TopHeader extends Component {
+class TopHeader extends Component {
 
   constructor (props) {
     super(props)
     this.state = {
       collapsed: false
     }
+  }
+
+  menu = (
+    <Menu>
+      <Menu.Item key="1">
+        11111111111
+      </Menu.Item>
+      <Menu.Item key="2" danger onClick={() => this.logout()}>
+        退出
+      </Menu.Item>
+    </Menu>
+  )
+
+  logout = () => {
+    // localStorage.removeItem("token")
+    this.props.history.replace("/login")
   }
 
   toggle = () => {
@@ -47,9 +52,9 @@ export default class TopHeader extends Component {
         }
         <div style={{float: "right"}}>
           <span style={{marginRight: "10px"}}>{`欢迎回来`}</span>
-          <Dropdown overlay={menu} placement="bottomRight">
+          <Dropdown overlay={this.menu} placement="bottomRight">
             <Avatar
-            style={{transform: "translateY(-4px)"}} 
+              style={{transform: "translateY(-4px)"}} 
               size="small" 
               src="https://joeschmoe.io/api/v1/random" 
               alt="头像" 
@@ -61,3 +66,5 @@ export default class TopHeader extends Component {
     )
   }
 }
+
+export default withRouter(TopHeader)
