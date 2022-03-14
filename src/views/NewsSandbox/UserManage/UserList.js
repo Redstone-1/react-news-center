@@ -12,7 +12,7 @@ import {
   EditOutlined,
   ExclamationCircleOutlined
 } from "@ant-design/icons"
-import AddUserForm from './UserForm';
+import UserForm from './UserForm';
 import { $get, $delete, $patch, $post } from '../../../api/request';
 
 const { confirm } = Modal
@@ -28,9 +28,10 @@ export default class UserList extends Component {
       loading: false,
       isAddUserModalShow: false,
       isUpdateUserModalShow: false,
-      regions: [],
-      roles: [],
-      currentUpdateUserId: 0
+      regions: [], // 区域
+      roles: [], // 角色
+      currentUpdateUserId: 0, // 当前需要执行操作的用户的id
+      currentUser: JSON.parse(localStorage.getItem("token")) // 当前登录的用户
     }
     this.columns = [
       {
@@ -173,8 +174,22 @@ export default class UserList extends Component {
   getUsersList = () => {
     $get("/users?_expand=role").then(async res => {
       if (res.status === 200) {
+        // 当前登录用户只能看到他的下级用户
+        const { data } = res
+        const { roleId, username, region } = this.state.currentUser
+        const roleObj = {
+          "1": "superAdmin",
+          "2": "admin",
+          "3": "editor"
+        }
+        const list = roleObj[roleId] === "superAdmin" 
+        ? data
+        : [
+          ...data.filter(item => item.username === username),
+          ...data.filter(item => item.region === region && roleObj[item.roleId] === "editor")
+        ] 
         this.setState({
-          dataSource: res.data
+          dataSource: list
         })
       }
     })
@@ -327,7 +342,7 @@ export default class UserList extends Component {
             isAddUserModalShow: false
           })}
         >
-          <AddUserForm ref={this.formRef} regions={this.state.regions} roles={this.state.roles} />
+          <UserForm type="add" ref={this.formRef} regions={this.state.regions} roles={this.state.roles} />
         </Modal>
 
         <Modal
@@ -340,7 +355,7 @@ export default class UserList extends Component {
             isUpdateUserModalShow: false
           })}
         >
-          <AddUserForm ref={this.formUpdateRef} regions={this.state.regions} roles={this.state.roles} />
+          <UserForm type="update" ref={this.formUpdateRef} regions={this.state.regions} roles={this.state.roles} />
         </Modal>
       </>
     )

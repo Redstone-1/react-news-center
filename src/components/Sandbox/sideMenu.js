@@ -14,7 +14,7 @@ import "./index.css"
 
 const { Sider } = Layout
 const { Item, SubMenu } = Menu  
-
+const user = JSON.parse(localStorage.getItem("token"))
 const iconToRoute = {
   "/home": <HomeOutlined />,
   "/user-manage": <UserOutlined />,
@@ -49,7 +49,7 @@ class SideMenu extends Component {
 
   // 校验菜单是不是页面级路由，是才渲染到左侧
   checkPagePermission = (item) => {
-    return item.pagepermisson === 1
+    return item.pagepermisson && user?.role?.rights.includes(item.key)
   }
 
   // 控制左侧菜单的打开效果：一个打开另一个关闭，永远只能打开一个

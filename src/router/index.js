@@ -8,7 +8,7 @@ export default function Router () {
     <HashRouter>
       <Switch>
         <Route path="/login" component={Login} exact />
-        <Route path="/" render={
+        <Route path="*" render={
           () => localStorage.getItem("token")
           ? <NewsSandbox></NewsSandbox>
           : <Redirect to="/login" /> 

@@ -1,11 +1,12 @@
 .login {
   height: 100%;
-  background-image: url("https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/d55de32c5c5b4d85a183de468159662a~tplv-k3u1fbpfcp-zoom-crop-mark:1304:1304:1304:734.awebp");
+  /* background-image: url("https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/d55de32c5c5b4d85a183de468159662a~tplv-k3u1fbpfcp-zoom-crop-mark:1304:1304:1304:734.awebp"); */
+  background-image: url("../../assets/images/电路板.awebp");
 }
 
 .login-wrapper {
   width: 500px;
-  height: 350px;
+  height: 300px;
   background-color: rgba(0, 0, 0, 0.5);
   position: fixed;
   top: 50%;
@@ -21,4 +22,16 @@
   line-height: 60px;
   font-size: 30px;
   color: white;
+}
+
+.ant-input-prefix {
+  color: rgba(0, 0, 0, 0.4)
+}
+
+.ant-spin-nested-loading {
+  height: 100%;
+}
+
+.ant-spin-container {
+  height: 100%;
 }

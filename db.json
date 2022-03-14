@@ -15,16 +15,16 @@
       "roleState": true,
       "default": false,
       "region": "大洋洲",
-      "roleId": 3,
+      "roleId": 2,
       "id": 2
     },
     {
       "username": "钢蛋",
-      "password": "123",
-      "roleState": false,
+      "password": "123456",
+      "roleState": true,
       "default": false,
-      "region": "南极洲",
-      "roleId": 2,
+      "region": "大洋洲",
+      "roleId": 3,
       "id": 3
     },
     {

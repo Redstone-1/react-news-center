@@ -11,23 +11,25 @@ class TopHeader extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      collapsed: false
+      collapsed: false,
+      user: JSON.parse(localStorage.getItem("token"))
     }
   }
 
-  menu = (
-    <Menu>
+  menu = () => {
+    const { role } = this.state.user
+    return <Menu>
       <Menu.Item key="1">
-        11111111111
+        { role?.roleName }
       </Menu.Item>
       <Menu.Item key="2" danger onClick={() => this.logout()}>
         退出
       </Menu.Item>
     </Menu>
-  )
+  }
 
-  logout = () => {
-    // localStorage.removeItem("token")
+  logout = async () => {
+    await localStorage.removeItem("token")
     this.props.history.replace("/login")
   }
 
@@ -51,7 +53,14 @@ class TopHeader extends Component {
           : <MenuFoldOutlined onClick={this.toggle} />
         }
         <div style={{float: "right"}}>
-          <span style={{marginRight: "10px"}}>{`欢迎回来`}</span>
+          <span style={{marginRight: "10px"}}>
+            {
+              <>
+                <span>欢迎回来</span>
+                <b style={{ color: "tomato", marginLeft: "6px" }}>{this.state?.user?.username}</b>
+              </>
+            }
+          </span>
           <Dropdown overlay={this.menu} placement="bottomRight">
             <Avatar
               style={{transform: "translateY(-4px)"}} 
