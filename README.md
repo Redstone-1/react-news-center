@@ -11,6 +11,12 @@
 3. 找到 db.json 所在文件夹，在终端中打开，执行 json-server --watch db.json --port 5000 在 5000 端口开启服务
 4. 执行 npm start 运行本项目
 
+# 测试账号
+
+1. 用户名：admin
+2. 密码：123456
+3. 更多账号请查看 db.json 文件
+
 # 本项目创意来源
 
 1. This project is create by Redstone(xwg), the originality is from web 

@@ -49,7 +49,7 @@ export default function MainRouter(props) {
 
 
   const checkRoute = (item) => {
-    return localRouterMap[item.key] === item.pagepermission
+    return localRouterMap[item.key] && item.pagepermisson
   }
 
   const checkUserPermission = (item) => {
