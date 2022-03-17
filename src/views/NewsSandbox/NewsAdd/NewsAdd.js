@@ -1,16 +1,29 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Steps, Card, Button, Space, Form, Input, Select } from 'antd';
+import { 
+  Steps, 
+  Card,
+  Button, 
+  Space, 
+  Form, 
+  Input, 
+  Select, 
+  message,
+  notification
+} from 'antd';
 import NewsEditor from '../../../components/NewsManage/NewsEditor';
-import { $get } from "../../../api/request"
+import { $get, $post } from "../../../api/request"
 import './NewsAdd.css'
 
 const { Step } = Steps
 const { Option } = Select
+const user = JSON.parse(localStorage.getItem("token"))
 
-export default function NewsAdd() {
+export default function NewsAdd(props) {
   const [currentStep, setCurrentStep] = useState(1)
   const formRef = useRef(null)
   const [newsTypeDict, setNewsTypeDict] = useState([])
+  const [formInfo, setFormInfo] = useState({})
+  const [content, setContent] = useState("")
 
   useEffect(() => {
     $get("categories").then(res => {
@@ -30,25 +43,46 @@ export default function NewsAdd() {
     if (currentStep === 0) {
       formRef.current.validateFields().then(res => {
         console.log(res);
+        setFormInfo(res)
         setCurrentStep(currentStep + 1)
       }).catch(err => {
         console.log(err);
       })
     } else {
-      setCurrentStep(currentStep + 1)
+      if (content === "" || content.trim() === "<p></p>") {
+        console.log("content", content);
+        message.error("新闻内容不能为空！")
+      } else {
+        setCurrentStep(currentStep + 1)
+      }
+      
     }
   }
 
-  // 保存到草稿箱
-  const saveToDraft = () => {
-
+  // 保存到草稿箱 or 提交审核
+  const handelSave = (auditState) => {
+    $post("/news", {
+      ...formInfo,
+      content,
+      region: user.region || "",
+      author: user.username,
+      roleId: user.roleId,
+      auditState: auditState,
+      publicState: 0,
+      createTime: Date.now(),
+      star: 0,
+      view: 0,
+      publishTime: 0
+    }).then(res => {
+      console.log('提交保存', res);
+      props.history.push(auditState === 0 ? "/news-manage/draft" : "/news-manage/audit")
+      notification.info({ 
+        message: "通知",
+        description: `您可以到${auditState === 0 ? "草稿箱" : "审核列表"}中查看您的新闻`,
+        duration: 2000
+      })
+    })
   }
-
-  // 提交审核
-  const submitToAudit = () => {
-
-  }
-
 
   // 渲染表单
   const renderForm = () => {
@@ -100,14 +134,15 @@ export default function NewsAdd() {
         <div className={currentStep === 1 ? "form-wrapper" : "hidden "}>
           <NewsEditor getContent={(content) => {
             console.log('content', content);
+            setContent(content)
           }} />
         </div>
         <div style={{marginTop: "40px"}}>
           <Space size={10}>
             {
               currentStep === 2 && <Space size={10}>
-                <Button onClick={saveToDraft}>保存到草稿箱</Button>
-                <Button type='danger' onClick={submitToAudit}>提交审核</Button>
+                <Button onClick={() => handelSave(0)}>保存到草稿箱</Button>
+                <Button type='danger' onClick={() => handelSave(1)}>提交审核</Button>
               </Space>
             }
             {
