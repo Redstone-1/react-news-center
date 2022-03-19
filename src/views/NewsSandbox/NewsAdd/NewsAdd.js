@@ -11,6 +11,7 @@ import {
   notification
 } from 'antd';
 import NewsEditor from '../../../components/NewsManage/NewsEditor';
+import moment from 'moment';
 import { $get, $post } from "../../../api/request"
 import './NewsAdd.css'
 
@@ -19,7 +20,7 @@ const { Option } = Select
 const user = JSON.parse(localStorage.getItem("token"))
 
 export default function NewsAdd(props) {
-  const [currentStep, setCurrentStep] = useState(1)
+  const [currentStep, setCurrentStep] = useState(0)
   const formRef = useRef(null)
   const [newsTypeDict, setNewsTypeDict] = useState([])
   const [formInfo, setFormInfo] = useState({})
@@ -69,7 +70,7 @@ export default function NewsAdd(props) {
       roleId: user.roleId,
       auditState: auditState,
       publicState: 0,
-      createTime: Date.now(),
+      createTime: moment(),
       star: 0,
       view: 0,
       publishTime: 0
@@ -78,8 +79,7 @@ export default function NewsAdd(props) {
       props.history.push(auditState === 0 ? "/news-manage/draft" : "/news-manage/audit")
       notification.info({ 
         message: "通知",
-        description: `您可以到${auditState === 0 ? "草稿箱" : "审核列表"}中查看您的新闻`,
-        duration: 2000
+        description: `您可以到${auditState === 0 ? "草稿箱" : "审核列表"}中查看您的新闻`
       })
     })
   }

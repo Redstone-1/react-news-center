@@ -1,7 +1,7 @@
 # 新闻发布系统
 
 1. 一个带有角色权限管理的新闻发布后台
-2. 技术栈：React + Reactp-hooks + Redux + React-router + Antd + Json-server
+2. 技术栈：React + React-hooks + Redux + React-router + Antd + Json-server
 3. 适合 React 新手入门，本项目结合 Class 与 Hook 两种组件编写方式
 
 # 启动项目

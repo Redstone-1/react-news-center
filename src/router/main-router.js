@@ -13,6 +13,7 @@ import AuditList from '../views/NewsSandbox/AuditList/AuditList'
 import Unpublish from '../views/NewsSandbox/Unpublish/Unpublish'
 import Publish from '../views/NewsSandbox/Publish/Publish'
 import HasOffLine from '../views/NewsSandbox/HasOffLine/HasOffLine'
+import NewsPreview from '../views/NewsSandbox/NewsPreview/NewsPreview';
 
 import { $get } from '../api/request';
 
@@ -23,6 +24,7 @@ const localRouterMap = {
   "/right-manage/right/list": RightList,
   "/news-manage/add": NewsAdd,
   "/news-manage/draft": NewsDraft,
+  "/news-manage/preview/:id": NewsPreview,
   "/news-manage/category": NewsCategory,
   "/audit-manage/audit": Audit,
   "/audit-manage/list": AuditList,
@@ -49,7 +51,7 @@ export default function MainRouter(props) {
 
 
   const checkRoute = (item) => {
-    return localRouterMap[item.key] && item.pagepermisson
+    return localRouterMap[item.key] && (item.pagepermisson || item.routepermisson)
   }
 
   const checkUserPermission = (item) => {

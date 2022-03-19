@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Editor } from 'react-draft-wysiwyg';
 import { convertToRaw } from 'draft-js';
 import draftToHtml from "draftjs-to-html";
