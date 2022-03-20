@@ -114,7 +114,7 @@ export default function AuditList(props) {
       getAuditListData()
       message.success("发布成功")
     }).catch(err => {
-      message.success("发布失败")
+      message.error("发布失败")
     })
   }
 
@@ -143,7 +143,7 @@ export default function AuditList(props) {
       getAuditListData()
       message.success("撤回成功")
     }).catch(err => {
-      message.success("撤回失败")
+      message.error("撤回失败")
     })
   }
 

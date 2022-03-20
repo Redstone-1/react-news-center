@@ -108,7 +108,7 @@ export default function AuditNews(props) {
       getWaitingAuditNews()
       message.success("驳回成功")
     }).catch(err => {
-      message.success("驳回失败")
+      message.error("驳回失败")
     })
   }
 
@@ -122,7 +122,7 @@ export default function AuditNews(props) {
       getWaitingAuditNews()
       message.success("通过成功")
     }).catch(err => {
-      message.success("通过失败")
+      message.error("通过失败")
     })
   }
 
