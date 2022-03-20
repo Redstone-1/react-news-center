@@ -2,19 +2,19 @@ import React, { useEffect, useState } from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
 import Home from '../views/NewsSandbox/Home/Home';
 import UserList from '../views/NewsSandbox/UserManage/UserList';
-import RoleList from '../views/NewsSandbox/RoleManage/RoleList';
-import RightList from '../views/NewsSandbox/RightManage/RightList';
+import RoleList from '../views/NewsSandbox/RightManage/RoleList/RoleList';
+import RightList from '../views/NewsSandbox/RightManage/RightList/RightList';
 import NotPermission from '../views/NewsSandbox/NotPermission/NotPermission';
-import NewsAdd from '../views/NewsSandbox/NewsAdd/NewsAdd';
-import NewsDraft from '../views/NewsSandbox/NewsDraft/NewsDraft';
-import NewsCategory from '../views/NewsSandbox/NewsCategory/NewsCategory';
-import Audit from '../views/NewsSandbox/Audit/Audit'
-import AuditList from '../views/NewsSandbox/AuditList/AuditList'
-import Unpublish from '../views/NewsSandbox/Unpublish/Unpublish'
-import Publish from '../views/NewsSandbox/Publish/Publish'
-import HasOffLine from '../views/NewsSandbox/HasOffLine/HasOffLine'
-import NewsPreview from '../views/NewsSandbox/NewsPreview/NewsPreview';
-
+import NewsAdd from '../views/NewsSandbox/NewsManage/NewsAdd/NewsAdd';
+import NewsDraft from '../views/NewsSandbox/NewsManage/NewsDraft/NewsDraft';
+import NewsCategory from '../views/NewsSandbox/NewsManage/NewsCategory/NewsCategory';
+import AuditNews from '../views/NewsSandbox/AuditManage/AuditNews/AuditNews';
+import AuditList from '../views/NewsSandbox/AuditManage/AuditList/AuditList';
+import Unpublish from '../views/NewsSandbox/PublishManage/Unpublish/Unpublish';
+import Publish from '../views/NewsSandbox/PublishManage/Publish/Publish';
+import HasOffLine from '../views/NewsSandbox/PublishManage/HasOffLine/HasOffLine';
+import NewsPreview from '../views/NewsSandbox/NewsManage/NewsDraft/NewsPreview/NewsPreview';
+import NewsUpdate from '../views/NewsSandbox/NewsManage/NewsDraft/NewsUpdate/NewsUpdate';
 import { $get } from '../api/request';
 
 const localRouterMap = {
@@ -25,8 +25,9 @@ const localRouterMap = {
   "/news-manage/add": NewsAdd,
   "/news-manage/draft": NewsDraft,
   "/news-manage/preview/:id": NewsPreview,
+  "/news-manage/update/:id": NewsUpdate,
   "/news-manage/category": NewsCategory,
-  "/audit-manage/audit": Audit,
+  "/audit-manage/audit": AuditNews,
   "/audit-manage/list": AuditList,
   "/publish-manage/unpublished": Unpublish,
   "/publish-manage/published": Publish,

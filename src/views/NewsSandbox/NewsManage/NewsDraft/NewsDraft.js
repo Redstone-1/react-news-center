@@ -5,7 +5,8 @@ import {
   Tag,
   Modal, 
   message,
-  Space
+  Space,
+  notification
 } from "antd";
 import { 
   DeleteOutlined, 
@@ -13,7 +14,7 @@ import {
   ExclamationCircleOutlined,
   CloudUploadOutlined
 } from "@ant-design/icons";
-import { $get, $delete } from "../../../api/request";
+import { $get, $delete, $patch } from "../../../../api/request";
 
 import "./NewsDraft.css";
 
@@ -72,11 +73,10 @@ export default function NewsDraft (props) {
             <Button onClick={() => confirmModal(record)} type="danger" icon={<DeleteOutlined />}>删除</Button>
             <Button onClick={() => { props.history.push(`/news-manage/update/${record.id}`) }} icon={<EditOutlined />}>编辑</Button>
             <Button 
-              onClick={() => { 
-              }}
+              onClick={() => sendToAudit(record.id)}
               type="primary" 
               icon={<CloudUploadOutlined />}>
-                发布
+                发送审核
             </Button>
           </Space>
         )
@@ -127,6 +127,19 @@ export default function NewsDraft (props) {
         await getAuditingNews()
         message.success("删除成功")
       }
+    })
+  }
+
+  // 将草稿箱的新闻发布到审核列表中
+  const sendToAudit = (id) => {
+    $patch(`/news/${id}`, {
+      auditState: 1
+    }).then(res => {
+      props.history.push("/audit-manage/list")
+      notification.info({ 
+        message: "通知",
+        description: `您可以到审核列表中查看您的新闻`
+      })
     })
   }
 

@@ -10,11 +10,11 @@ import {
 } from "@ant-design/icons"
 import { withRouter } from 'react-router-dom';
 import { $get } from '../../api/request';
-import "./index.css"
+import "./SideMenu.css"
 
 const { Sider } = Layout
 const { Item, SubMenu } = Menu  
-const user = JSON.parse(localStorage.getItem("token"))
+
 const iconToRoute = {
   "/home": <HomeOutlined />,
   "/user-manage": <UserOutlined />,
@@ -30,12 +30,16 @@ const currentOpenKeys = ["/" + currentUrl.split("/")[1]]
 
 class SideMenu extends Component {
 
-  state = {
-    collapsed: false,
-    menuList: [],
-    selectedKey: [] // 当前选中的菜单项 key 数组
-  };
-
+  constructor (props) {
+    super(props);
+    this.state = {
+      collapsed: false,
+      menuList: [],
+      selectedKey: [] // 当前选中的菜单项 key 数组
+    };
+    this.user = JSON.parse(localStorage.getItem("token"))
+  }
+  
   // 请求左侧菜单
   componentDidMount () {
     $get("rights?_embed=children", "").then(res => {
@@ -49,7 +53,7 @@ class SideMenu extends Component {
 
   // 校验菜单是不是页面级路由，是才渲染到左侧
   checkPagePermission = (item) => {
-    return item.pagepermisson && user?.role?.rights.includes(item.key)
+    return item.pagepermisson && this.user?.role?.rights.includes(item.key)
   }
 
   // 控制左侧菜单的打开效果：一个打开另一个关闭，永远只能打开一个

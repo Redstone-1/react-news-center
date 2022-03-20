@@ -5,3 +5,4 @@ export default function NewsCategory() {
     <div>NewsCategory</div>
   )
 }
+             

@@ -12,7 +12,7 @@ import {
   EditOutlined,
   ExclamationCircleOutlined
 } from "@ant-design/icons";
-import { $get, $delete, $patch } from "../../../api/request";
+import { $get, $delete, $patch } from "../../../../api/request";
 
 const { confirm } = Modal
 

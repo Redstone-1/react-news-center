@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { PageHeader, Descriptions, Tag } from 'antd';
 import moment from 'moment';
-import { $get } from '../../../api/request';
+import { $get } from '../../../../../api/request';
 import './NewsPreview.css'
 
 export default function NewsPreview(props) {

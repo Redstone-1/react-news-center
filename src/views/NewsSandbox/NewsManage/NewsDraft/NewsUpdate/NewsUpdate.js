@@ -10,16 +10,16 @@ import {
   message,
   notification
 } from 'antd';
-import NewsEditor from '../../../components/NewsManage/NewsEditor';
-import moment from 'moment';
-import { $get, $post } from "../../../api/request"
-import './NewsAdd.css'
+import NewsEditor from '../../../../../components/NewsManage/NewsEditor';
+// import moment from 'moment';
+import { $get, $patch } from "../../../../../api/request"
+import './NewsUpdate.css'
 
 const { Step } = Steps
 const { Option } = Select
-const user = JSON.parse(localStorage.getItem("token"))
+// const user = JSON.parse(localStorage.getItem("token"))
 
-export default function NewsAdd(props) {
+export default function NewsUpdate(props) {
   const [currentStep, setCurrentStep] = useState(0)
   const formRef = useRef(null)
   const [newsTypeDict, setNewsTypeDict] = useState([])
@@ -33,6 +33,19 @@ export default function NewsAdd(props) {
       }
     })
   }, [])
+
+  useEffect(() => {
+    $get(`/news/${props.match.params.id}?_expand=category&_expand=role`)
+      .then(res => {
+        console.log('news', res.data);
+        const { title, categoryId, content } = res.data
+        formRef.current.setFieldsValue({
+          title,
+          categoryId,
+        })
+        setContent(content)
+      })
+  }, [props.match.params.id])
   
   // 上一步
   const preStep = () => {
@@ -62,21 +75,13 @@ export default function NewsAdd(props) {
 
   // 保存到草稿箱 or 提交审核
   const handelSave = (auditState) => {
-    $post("/news", {
+    $patch(`/news/${props.match.params.id}`, {
       ...formInfo,
       content,
-      region: user.region || "",
-      author: user.username,
-      roleId: user.roleId,
-      auditState: auditState,
-      publicState: 0,
-      createTime: moment(),
-      star: 0,
-      view: 0,
-      publishTime: 0
+      auditState: auditState
     }).then(res => {
       console.log('提交保存', res);
-      props.history.push(auditState === 0 ? "/news-manage/draft" : "/news-manage/audit")
+      props.history.push(auditState === 0 ? "/news-manage/draft" : "/audit-manage/list")
       notification.info({ 
         message: "通知",
         description: `您可以到${auditState === 0 ? "草稿箱" : "审核列表"}中查看您的新闻`
@@ -119,7 +124,7 @@ export default function NewsAdd(props) {
 
   return (
     <div>
-      <b style={{fontSize: "20px"}}>新闻撰写</b>
+      <b style={{fontSize: "20px"}}>新闻更新</b>
       <Card bordered={false}>
         <Steps current={currentStep}>
           <Step title="基本信息" description="新闻标题，新闻分类" />
@@ -132,7 +137,7 @@ export default function NewsAdd(props) {
           }
         </div>
         <div className={currentStep === 1 ? "form-wrapper" : "hidden "}>
-          <NewsEditor getContent={(content) => {
+          <NewsEditor content={content} getContent={(content) => {
             console.log('content', content);
             setContent(content)
           }} />
