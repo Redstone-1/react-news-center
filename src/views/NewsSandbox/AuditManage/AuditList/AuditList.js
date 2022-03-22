@@ -10,6 +10,7 @@ import {
   ExclamationCircleOutlined
 } from "@ant-design/icons";
 import { $get, $patch } from '../../../../api/request';
+import moment from 'moment';
 
 const { confirm } = Modal
 const user = JSON.parse(localStorage.getItem("token"))
@@ -99,7 +100,7 @@ export default function AuditList(props) {
 
   const getAuditListData = () => {
     const { username } = user
-    $get(`/news?author=${username}&auditState_ne=0&publicState_lte=1`).then(res => {
+    $get(`/news?author=${username}&auditState_ne=0&publishState_lte=1`).then(res => {
       console.log("审核列表", res.data);
       setAuditList(res.data)
     })
@@ -109,7 +110,8 @@ export default function AuditList(props) {
   const publishNews = (record) => {
     const { id } = record
     $patch(`/news/${id}`, {
-      publicState: 2
+      publishState: 2,
+      publishTime: moment()
     }).then(res => {
       getAuditListData()
       message.success("发布成功")

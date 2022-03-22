@@ -56,7 +56,7 @@ export default function NewsPreview(props) {
 
               <Descriptions.Item label="发布状态">
                 {
-                  <b style={{}}>{publicList[newsDetail.publicState]}</b>
+                  <b style={{}}>{publicList[newsDetail.publishState]}</b>
                 }
               </Descriptions.Item>
 

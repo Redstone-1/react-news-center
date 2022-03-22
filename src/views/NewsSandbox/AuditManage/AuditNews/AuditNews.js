@@ -103,7 +103,7 @@ export default function AuditNews(props) {
     const { id } = record
     $patch(`/news/${id}`, {
       auditState: 3,
-      publicState: 0
+      publishState: 0
     }).then(res => {
       getWaitingAuditNews()
       message.success("驳回成功")
@@ -113,11 +113,11 @@ export default function AuditNews(props) {
   }
 
   // 通过
-  const accessAudit = (record, auditState, publicState) => {
+  const accessAudit = (record, auditState, publishState) => {
     const { id } = record
     $patch(`/news/${id}`, {
       auditState,
-      publicState,
+      publishState,
     }).then(res => {
       getWaitingAuditNews()
       message.success("通过成功")
