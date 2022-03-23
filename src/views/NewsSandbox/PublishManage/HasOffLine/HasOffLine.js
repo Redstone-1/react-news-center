@@ -19,11 +19,19 @@ export default function HasOffline(props) {
     })
   }
 
+  const getActionRes = (state) => {
+    if (state) {
+      getAuditListData()
+    } 
+  }
+
   return (
     <div>
-      <NewsPublish 
-        dataSource={dataSource} 
-        pageTitle="未发布新闻" 
+      <NewsPublish
+        getActionRes={getActionRes}
+        buttonType="删除"
+        dataSource={dataSource}
+        pageTitle="已下线新闻"
       />
     </div>
   )

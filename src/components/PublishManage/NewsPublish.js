@@ -9,7 +9,7 @@ import {
 import {
   ExclamationCircleOutlined
 } from "@ant-design/icons";
-import { $patch } from '../../api/request';
+import { $delete, $patch } from '../../api/request';
 import moment from 'moment';
 
 
@@ -17,7 +17,7 @@ const { confirm } = Modal
 
 function NewsPublish(props) {
 
-  const { dataSource, pageTitle } = props
+  const { dataSource, pageTitle, buttonType, getActionRes } = props
 
   const columns = [
     {
@@ -54,36 +54,61 @@ function NewsPublish(props) {
       title: "操作",
       key: "option",
       render: (text, record) => {
-        const { auditState } = record
         return (
-          <Button type="primary" onClick={() => confirmModal(record)}>发布</Button>
+          <Button 
+            type="primary" 
+            onClick={() => confirmModal(record)}>
+            { buttonType }
+          </Button>
         )
       }
     }
   ]
 
   // 新闻
-  const takeDownNews = (record) => {
+  const newsAction = (record) => {
     const { id } = record
-    $patch(`/news/${id}`, {
-      publishState: 2,
-      publishTime: moment()
-    }).then(res => {
-      message.success("发布成功")
-    }).catch(err => {
-      message.error("发布失败")
-    })
+    switch (buttonType) {
+      default:
+        $patch(`/news/${id}`, {
+          publishState: 2,
+          publishTime: moment()
+        }).then(res => {
+          message.success("发布成功")
+          getActionRes(true)
+        }).catch(err => {
+          message.error("发布失败")
+        })
+        break
+      case '下线':
+        $patch(`/news/${id}`, {
+          publishState: 3,
+        }).then(res => {
+          message.success("下线成功")
+          getActionRes(true)
+        }).catch(err => {
+          message.error("下线失败")
+        })
+        break
+      case '删除':
+        $delete(`/news/${id}`).then(res => {
+          message.success("删除成功")
+          getActionRes(true)
+        }).catch(err => {
+          message.error("删除失败")
+        })
+    }
   }
 
   // 点击删除调出确认弹窗
   const confirmModal = (record) => {
     confirm({
-      title: "确定发布吗？",
+      title: "确定执行此操作吗？",
       icon: <ExclamationCircleOutlined />,
       okText: "确认",
       cancelText: "取消",
       onOk: () => {
-        takeDownNews(record)
+        newsAction(record)
       },
       onCancel() {
         console.log('Cancel');

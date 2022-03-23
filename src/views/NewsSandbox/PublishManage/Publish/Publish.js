@@ -19,9 +19,17 @@ export default function Publish(props) {
     })
   }
 
+  const getActionRes = (state) => {
+    if (state) {
+      getAuditListData()
+    } 
+  }
+
   return (
     <div>
-      <NewsPublish 
+      <NewsPublish
+        getActionRes={getActionRes}
+        buttonType="下线"
         dataSource={dataSource} 
         pageTitle="已发布新闻" 
       />

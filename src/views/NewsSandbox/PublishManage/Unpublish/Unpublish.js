@@ -14,16 +14,23 @@ export default function Unpublish(props) {
   const getAuditListData = () => {
     const { username } = user
     $get(`/news?author=${username}&publishState=1&_expand=category`).then(res => {
-      console.log("未发布", res.data);
       setDataSource(res.data)
     })
   }
 
+  const getActionRes = (state) => {
+    if (state) {
+      getAuditListData()
+    } 
+  }
+
   return (
     <div>
-      <NewsPublish 
-        dataSource={dataSource} 
-        pageTitle="未发布新闻" 
+      <NewsPublish
+        getActionRes={getActionRes}
+        buttonType="发布"
+        dataSource={dataSource}
+        pageTitle="未发布新闻"
       />
     </div>
   )
