@@ -5,6 +5,7 @@ import {
   MenuUnfoldOutlined,
   MenuFoldOutlined
 } from '@ant-design/icons';
+import { connect } from 'react-redux';
 
 class TopHeader extends Component {
 
@@ -76,4 +77,10 @@ class TopHeader extends Component {
   }
 }
 
-export default withRouter(TopHeader)
+export default connect((state) => {
+  const { Collapse: { isCollapse } } = state
+  return {
+    isCollapse
+  }
+})(withRouter(TopHeader))
+

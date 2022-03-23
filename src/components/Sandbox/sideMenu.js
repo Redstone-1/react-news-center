@@ -10,7 +10,7 @@ import {
 } from "@ant-design/icons"
 import { withRouter } from 'react-router-dom';
 import { $get } from '../../api/request';
-import "./SideMenu.css"
+import "./SideMenu.css";
 
 const { Sider } = Layout
 const { Item, SubMenu } = Menu  
