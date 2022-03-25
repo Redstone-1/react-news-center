@@ -3,12 +3,36 @@
  * redstone
  * 2022-03-11
  */
-import axios from 'axios'
+import axios from 'axios';
+import { store } from '../redux/store';
 
 const request = axios.create({
   baseURL: "http://localhost:5000",
   timeout: 10000
 })
+
+// 请求拦截器
+request.interceptors.request.use((config) => {
+  store.dispatch({
+    type: "changeGlobalLoading",
+    payload: true
+  })
+  return config
+}, (error) => {
+  return Promise.reject(error)
+})
+
+// 响应拦截器
+request.interceptors.response.use((response) => {
+  store.dispatch({
+    type: "changeGlobalLoading",
+    payload: false
+  })
+  return response
+}, (error) => {
+  return Promise.reject(error)
+})
+
 /**
 * get方法，对应get请求
 * @param {String} url [请求的url地址]

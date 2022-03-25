@@ -9,6 +9,7 @@ import {
   CloudUploadOutlined 
 } from "@ant-design/icons"
 import { withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
 import { $get } from '../../api/request';
 import "./SideMenu.css";
 
@@ -65,8 +66,8 @@ class SideMenu extends Component {
 
   render() {
     return (
-      <Sider trigger={null} collapsible collapsed={this.state.collapsed}>
-        <div className="logo">全球新闻发布系统</div>
+      <Sider trigger={null} collapsible collapsed={this.props.isCollapse}>
+        <div className="logo">新闻发布系统</div>
         <Menu 
           onOpenChange={this.controlMenuOpen}
           theme="dark" 
@@ -107,4 +108,11 @@ class SideMenu extends Component {
   }
 }
 
-export default withRouter(SideMenu)
+const mapStateToProps = (state) => {
+  const { Collapse: { isCollapse } } = state
+  return {
+    isCollapse
+  }
+}
+
+export default connect(mapStateToProps)(withRouter(SideMenu))

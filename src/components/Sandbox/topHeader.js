@@ -12,7 +12,6 @@ class TopHeader extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      collapsed: false,
       user: JSON.parse(localStorage.getItem("token"))
     }
   }
@@ -35,9 +34,7 @@ class TopHeader extends Component {
   }
 
   toggle = () => {
-    this.setState({
-      collapsed: !this.state.collapsed
-    })
+    this.props.changeIsCollapse()
   }
 
   render() {
@@ -49,7 +46,7 @@ class TopHeader extends Component {
         backgroundColor: "#fff"
       }}>
         {
-          this.state.collapsed
+          this.props.isCollapse
           ? <MenuUnfoldOutlined onClick={this.toggle} /> 
           : <MenuFoldOutlined onClick={this.toggle} />
         }
@@ -77,10 +74,21 @@ class TopHeader extends Component {
   }
 }
 
-export default connect((state) => {
+
+const mapStateToProps = (state) => {
   const { Collapse: { isCollapse } } = state
   return {
     isCollapse
   }
-})(withRouter(TopHeader))
+}
+
+const mapDispatchToProps = {
+  changeIsCollapse () {
+    return {
+      type: "changeCollapse"
+    }
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(TopHeader))
 
