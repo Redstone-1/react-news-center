@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Card, Col, Row, List, Avatar, Drawer } from 'antd';
+import { Card, Col, Row, List, Avatar, Drawer, Empty } from 'antd';
 import { PieChartOutlined } from '@ant-design/icons';
 import { $get } from '../../../api/request';
 import * as Echarts from "echarts";
@@ -201,7 +201,11 @@ export default function Home(props) {
           : <div id="lineChart" style={{ height: '100%' }}></div>
         }
       </Drawer>
-      <div id="barChart" style={{ height: '400px', marginTop: '30px' }}></div>
+      {
+        newsData.length > 0 
+        ? <div id="barChart" style={{ height: '400px', marginTop: '30px' }}></div>
+        : <Empty />
+      }
     </div>
   ) 
 }
