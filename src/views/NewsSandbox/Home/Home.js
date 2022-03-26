@@ -6,8 +6,13 @@ import * as Echarts from "echarts";
 import _ from 'lodash';
 import './Home.css';
 
+const getRandomNumber = (min, max) => {
+  return Math.floor(Math.random() * (max - min + 1) + min)
+}
+
 const { Meta } = Card;
 const { username, region, role: { roleName } } = JSON.parse(localStorage.getItem("token"))
+const cover = require(`../../../assets/images/${getRandomNumber(1, 10)}.jpg`)
 
 export default function Home(props) {
   const [pieInstance, setPieInstance] = useState(null)
@@ -170,10 +175,12 @@ export default function Home(props) {
         </Col>
         <Col span={8}>
           <Card
+            title={<b>个人面板</b>}
+            bordered={false}
             cover={
               <img
                 alt="example"
-                src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
+                src={cover}
               />
             }
             actions={[

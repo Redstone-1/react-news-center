@@ -1,8 +1,10 @@
 .logo {
+  height: 40px;
   line-height: 32px;
   padding-bottom: 4px;
   color: white;
-  background-color: orange;
+  background-color: tomato;
+  border-radius: 6px 0 6px 0;
   font-size: 18px;
   margin: 10px;
   text-align: center;

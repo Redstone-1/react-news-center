@@ -67,7 +67,7 @@ class SideMenu extends Component {
   render() {
     return (
       <Sider trigger={null} collapsible collapsed={this.props.isCollapse}>
-        <div className="logo">新闻发布系统</div>
+        <div className="logo">全球新闻发布系统</div>
         <Menu 
           onOpenChange={this.controlMenuOpen}
           theme="dark" 
