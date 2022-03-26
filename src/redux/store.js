@@ -15,6 +15,7 @@ const reducer = combineReducers({
 const persistConfig = {
   key: 'news-system',
   storage,
+  // 黑名单：不被持久化的状态
   blacklist: ['GlobalLoading']
 }
 

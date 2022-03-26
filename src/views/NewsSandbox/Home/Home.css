@@ -1,0 +1,9 @@
+.news-title {
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.news-title:hover {
+  color: tomato;
+  cursor: pointer;
+}
